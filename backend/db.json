@@ -1,0 +1,97 @@
+{
+  "users": {
+    "admin-id": {
+      "id": "admin-id",
+      "name": "Administrator FourMart",
+      "email": "admin@fourmart.com",
+      "password": "$2a$10$65GfNrgp0D60rAOxnWBKHektNrkmKpfI21WyH/Ee.wBuSFoT9acse",
+      "role": "admin",
+      "address": "Gedung Rektorat Lt. 2, Jakarta",
+      "phone": "081234567890"
+    },
+    "customer-id": {
+      "id": "customer-id",
+      "name": "Ahmad Budiman",
+      "email": "user@fourmart.com",
+      "password": "$2a$10$vB50oSh/JCQRxuhaqRsWX.2pP7Uv895AKqD54w5RkMq/h2/U0vL/S",
+      "role": "customer",
+      "address": "Jl. Kebon Jeruk No. 12, Jakarta Barat",
+      "phone": "089876543210"
+    }
+  },
+  "products": {
+    "p1": {
+      "id": "p1",
+      "name": "Tas Ransel Sekolah Oxford Premium",
+      "description": "Tas ransel sekolah awet dengan bahan Oxford tahan air, kompartemen laptop 14 inch, dan busa punggung tebal yang nyaman dipakai seharian.",
+      "price": 185000,
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 45,
+      "category": "Tas \u0026 Kotak Pensil"
+    },
+    "p2": {
+      "id": "p2",
+      "name": "Buku Tulis Spiral A5 Joyko (Isi 5 Pcs)",
+      "description": "Paket 5 buku tulis spiral ukuran A5 dengan kertas 80gsm tebal, isi 60 lembar. Sangat cocok untuk mencatat materi pelajaran sekolah maupun kuliah.",
+      "price": 45000,
+      "image": "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 120,
+      "category": "Tulis-Menulis"
+    },
+    "p3": {
+      "id": "p3",
+      "name": "Pulpen Gel Hitam Joyko 0.5mm (1 Lusin)",
+      "description": "Satu lusin (12 pcs) pulpen gel tinta hitam ukuran mata pena 0.5mm. Aliran tinta lancar, cepat kering, dan tidak luntur di kertas.",
+      "price": 28000,
+      "image": "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 80,
+      "category": "Tulis-Menulis"
+    },
+    "p4": {
+      "id": "p4",
+      "name": "Pensil Warna Faber-Castell Classic 24 Warna",
+      "description": "Pensil warna klasik berkualitas tinggi isi 24 warna cerah. Kayu ramah lingkungan, tidak mudah patah saat diraut, dan pigmen warna halus.",
+      "price": 62000,
+      "image": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 35,
+      "category": "Tulis-Menulis"
+    },
+    "p5": {
+      "id": "p5",
+      "name": "Kalkulator Scientific Casio FX-991EX",
+      "description": "Kalkulator ilmiah dengan 552 fungsi matematika, statistik, matriks, dan persamaan. Dilengkapi layar LCD beresolusi tinggi dan dual power (solar \u0026 baterai).",
+      "price": 320000,
+      "image": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 15,
+      "category": "Elektronik \u0026 Belajar"
+    },
+    "p6": {
+      "id": "p6",
+      "name": "Kotak Pensil Canvas Estetik",
+      "description": "Kotak pensil berbahan kanvas tebal dengan ritsleting kokoh dan kapasitas besar untuk menyimpan pulpen, pensil, penghapus, dan penggaris kecil.",
+      "price": 22000,
+      "image": "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 60,
+      "category": "Tas \u0026 Kotak Pensil"
+    },
+    "p7": {
+      "id": "p7",
+      "name": "Penggaris Stainless Steel Kenko 30cm",
+      "description": "Penggaris besi stainless tahan karat dengan ukuran presisi cm dan inch. Tepi penggaris halus dan tidak tajam sehingga aman untuk anak sekolah.",
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 150,
+      "category": "Tulis-Menulis"
+    },
+    "p8": {
+      "id": "p8",
+      "name": "Sepatu Sekolah Hitam Warrior Classic",
+      "description": "Sepatu sekolah hitam polos berbahan kanvas tebal dengan sol karet anti licin. Sesuai dengan standar peraturan seragam sekolah di Indonesia.",
+      "price": 135000,
+      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "stock": 25,
+      "category": "Seragam \u0026 Aksesoris"
+    }
+  },
+  "orders": {}
+}
