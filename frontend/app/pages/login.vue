@@ -1,6 +1,10 @@
 <template>
   <NuxtLayout name="blank">
     <div class="login-wrapper md-card md-card--elevated">
+      <button class="md-btn md-btn--icon back-btn no-print" @click="navigateTo('/')" title="Kembali ke Beranda">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+
       <div class="login-header" @click="navigateTo('/')">
         <span class="material-symbols-outlined text-primary">school</span>
         <h2>FourMart</h2>
@@ -112,10 +116,17 @@ const handleSubmit = async () => {
   width: 100%;
   max-width: 440px;
   padding: 32px !important;
+  position: relative;
   background-color: var(--md-sys-color-surface-container-low);
   border-radius: var(--md-shape-corner-extra-large);
   display: flex;
   flex-direction: column;
+}
+
+.back-btn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
 }
 
 .login-header {
@@ -190,5 +201,13 @@ const handleSubmit = async () => {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  .login-wrapper {
+    padding: 24px 16px !important;
+    width: 92%;
+    margin: 0 auto;
+  }
 }
 </style>

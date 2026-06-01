@@ -2,12 +2,13 @@
   <div class="app-layout">
     <header class="md-top-bar" :class="{ 'md-top-bar--scrolled': isScrolled }">
       <div class="md-top-bar-container">
-        <div class="md-brand" @click="navigateTo('/')" style="cursor: pointer;">
+        <div class="md-brand" v-show="!isMobileSearchVisible" @click="navigateTo('/')" style="cursor: pointer;">
           <span class="material-symbols-outlined">school</span>
           <span>FourMart</span>
         </div>
 
-        <div class="header-search no-print" v-if="$route.path === '/'">
+        <!-- Desktop Search bar -->
+        <div class="header-search no-print desktop-only" v-if="$route.path === '/'">
           <span class="material-symbols-outlined search-icon">search</span>
           <input 
             type="text" 
@@ -18,8 +19,25 @@
           />
         </div>
 
-        <div class="md-nav-links no-print">
-          <button class="md-btn md-btn--text" @click="navigateTo('/')">Katalog</button>
+        <!-- Mobile Search Input (Visible when toggled) -->
+        <div class="header-search mobile-search-active" v-if="isMobileSearchVisible">
+          <button class="md-btn md-btn--icon" @click="isMobileSearchVisible = false">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </button>
+          <input 
+            type="text" 
+            placeholder="Cari produk..." 
+            v-model="searchQuery"
+            @input="onSearch"
+            class="search-input"
+            autoFocus
+          />
+        </div>
+
+        <div class="md-nav-links no-print" v-show="!isMobileSearchVisible">
+          <!-- Desktop Navigation -->
+          <div class="desktop-only" style="display: flex; gap: 8px;">
+          <button class="md-btn md-btn--text" @click="scrollToAnchor('katalog')">Katalog</button>
 
           <button 
             v-if="isLoggedIn && isAdmin" 
@@ -28,6 +46,16 @@
           >
             <span class="material-symbols-outlined">dashboard</span>
             Admin Panel
+          </button>
+          </div>
+
+          <!-- Mobile Search Toggle -->
+          <button 
+            v-if="$route.path === '/'" 
+            class="md-btn md-btn--icon mobile-only" 
+            @click="isMobileSearchVisible = true"
+          >
+            <span class="material-symbols-outlined">search</span>
           </button>
 
           <div class="md-badge-container">
@@ -75,17 +103,13 @@
       <slot />
     </main>
 
-    <footer class="footer no-print">
-      <div class="container footer-content">
-        <div>
-          <h3>FourMart</h3>
-          <p class="text-muted">Peralatan Sekolah Premium, Berkualitas, & Terlengkap.</p>
-        </div>
-        <div>
-          <p>&copy; 2026 FourMart. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+    <template v-if="route.path === '/'">
+      <AppWhyChooseUs />
+      <AppTestimonials />
+      <AppContactSupport />
+    </template>
+
+    <AppFooter class="no-print" />
 
     <div v-if="isCartOpen" class="md-drawer-overlay no-print" @click.self="isCartOpen = false">
       <div class="md-drawer">
@@ -181,6 +205,29 @@ const isScrolled = ref(false)
 const isCartOpen = ref(false)
 const isUserMenuOpen = ref(false)
 const searchQuery = ref('')
+const isMobileSearchVisible = ref(false)
+
+const navigateTo = (path) => {
+  if (route.path === '/' && path === '/') {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  router.push(path)
+}
+
+const scrollToAnchor = (id) => {
+  if (route.path === '/') {
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
+  } else {
+    router.push({ path: '/', hash: `#${id}` })
+  }
+}
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const onSearch = () => {
   if (route.path !== '/') {
@@ -196,6 +243,11 @@ watch(() => route.query.search, (newVal) => {
 
 const toggleUserMenu = () => {
   isUserMenuOpen.value = !isUserMenuOpen.value
+}
+
+const closeMenuAndNavigate = (path) => {
+  isUserMenuOpen.value = false
+  navigateTo(path)
 }
 
 const handleLogout = async () => {
@@ -228,14 +280,48 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Tambahkan smooth scroll secara global untuk layout ini */
+:global(html) {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 .app-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
+}
+
+.md-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 64px;
+  z-index: 110;
+  background-color: var(--md-sys-color-surface);
+  transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.md-top-bar--scrolled {
+  background-color: var(--md-sys-color-surface-container-low);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-sys-shadow-1);
+}
+
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
 }
 
 .main-content {
   flex: 1;
+  padding-top: 64px;
 }
 
 .header-search {
@@ -318,20 +404,6 @@ onMounted(async () => {
   font-size: 20px;
 }
 
-.footer {
-  background-color: var(--md-sys-color-surface-container-low);
-  border-top: 1px solid var(--md-sys-color-outline-variant);
-  margin-top: auto;
-}
-
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
 /* Cart Drawer Styling helper */
 .cart-items-list {
   display: flex;
@@ -366,7 +438,7 @@ onMounted(async () => {
   font-weight: 600;
   color: var(--md-sys-color-on-surface);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -433,5 +505,29 @@ onMounted(async () => {
   justify-content: space-between;
   align-items: center;
   font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: inline-flex !important;
+  }
+  .header-search.mobile-search-active {
+    margin: 0;
+    max-width: none;
+    gap: 8px;
+  }
+  .md-badge-container {
+    margin-left: 0;
+  }
+  .user-dropdown {
+    width: 200px;
+    top: 40px;
+  }
+  .md-top-bar-container {
+    gap: 8px;
+  }
 }
 </style>

@@ -6,7 +6,7 @@
       "email": "admin@fourmart.com",
       "password": "$2a$10$65GfNrgp0D60rAOxnWBKHektNrkmKpfI21WyH/Ee.wBuSFoT9acse",
       "role": "admin",
-      "address": "Gedung Rektorat Lt. 2, Jakarta",
+      "address": "Jl. Raya Jatimulya, Kabupaten Kuningan, Jawa Barat",
       "phone": "081234567890"
     },
     "customer-id": {
@@ -61,7 +61,7 @@
       "name": "Kalkulator Scientific Casio FX-991EX",
       "description": "Kalkulator ilmiah dengan 552 fungsi matematika, statistik, matriks, dan persamaan. Dilengkapi layar LCD beresolusi tinggi dan dual power (solar \u0026 baterai).",
       "price": 320000,
-      "image": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "image": "https://images.unsplash.com/photo-1611125832047-1d7ad1e8e48f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8a2Fsa3VsYXRvcnxlbnwwfHwwfHx8MA%3D%3D",
       "stock": 15,
       "category": "Elektronik \u0026 Belajar"
     },
@@ -70,7 +70,7 @@
       "name": "Kotak Pensil Canvas Estetik",
       "description": "Kotak pensil berbahan kanvas tebal dengan ritsleting kokoh dan kapasitas besar untuk menyimpan pulpen, pensil, penghapus, dan penggaris kecil.",
       "price": 22000,
-      "image": "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "image": "https://images.unsplash.com/photo-1567634088512-20ec1da1e1a5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGtvdGFrJTIwcGVuc2lsJTIwY2FudmFzfGVufDB8fDB8fHww",
       "stock": 60,
       "category": "Tas \u0026 Kotak Pensil"
     },
@@ -79,7 +79,7 @@
       "name": "Penggaris Stainless Steel Kenko 30cm",
       "description": "Penggaris besi stainless tahan karat dengan ukuran presisi cm dan inch. Tepi penggaris halus dan tidak tajam sehingga aman untuk anak sekolah.",
       "price": 12000,
-      "image": "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "image": "https://images.unsplash.com/photo-1662137257678-4eb306f0541b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHBlbmdnYXJpcyUyMHN0YWlubGVzc3xlbnwwfHwwfHx8MA%3D%3D",
       "stock": 150,
       "category": "Tulis-Menulis"
     },
@@ -88,7 +88,7 @@
       "name": "Sepatu Sekolah Hitam Warrior Classic",
       "description": "Sepatu sekolah hitam polos berbahan kanvas tebal dengan sol karet anti licin. Sesuai dengan standar peraturan seragam sekolah di Indonesia.",
       "price": 135000,
-      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500\u0026auto=format\u0026fit=crop\u0026q=60",
+      "image": "https://images.unsplash.com/photo-1562105962-2fbaaf107fe3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c2VwYXR1JTIwaGl0YW18ZW58MHx8MHx8fDA%3D",
       "stock": 25,
       "category": "Seragam \u0026 Aksesoris"
     }

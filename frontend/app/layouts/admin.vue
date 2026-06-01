@@ -148,6 +148,7 @@ onMounted(async () => {
   display: flex;
   min-height: 100vh;
   background-color: var(--md-sys-color-background);
+  width: 100%;
 }
 
 .admin-sidebar {
@@ -164,14 +165,15 @@ onMounted(async () => {
 }
 
 .sidebar-brand {
-  height: 64px;
+  height: 84px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 24px;
+  gap: 18px; /* Ditambah jarak antar icon dan teks */
+  padding: 0 28px; /* Ditambah padding agar tidak mepet ke pinggir sidebar */
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--md-sys-color-primary);
+  letter-spacing: 0.5px; /* Memberikan nafas pada teks agar tidak terlihat sempit */
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
   cursor: pointer;
 }
@@ -181,7 +183,7 @@ onMounted(async () => {
 }
 
 .sidebar-nav {
-  padding: 24px 12px;
+  padding: 32px 12px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -279,15 +281,18 @@ onMounted(async () => {
 
 .admin-header {
   height: 64px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 260px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
   background-color: var(--md-sys-color-surface-container-low);
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
-  position: sticky;
-  top: 0;
   z-index: 90;
+  transition: left 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .page-title {
@@ -301,8 +306,20 @@ onMounted(async () => {
 }
 
 .admin-content {
-  padding: 32px;
+  padding: 96px 32px 32px 32px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Perbaikan: Memberikan jarak horizontal untuk kotak yang berjajar (seperti Pesanan Terbaru & Distribusi Kategori) */
+.admin-content :deep(.dashboard-grid),
+.admin-content :deep(.dashboard-row),
+.admin-content :deep(.grid-row) {
+  display: flex;
+  gap: 32px; /* Jarak antar kotak dashboard */
+  flex-wrap: wrap;
 }
 
 .sidebar-overlay {
@@ -328,6 +345,10 @@ onMounted(async () => {
   
   .menu-toggle {
     display: inline-flex;
+  }
+  
+  .admin-header {
+    left: 0;
   }
   
   .admin-main {
