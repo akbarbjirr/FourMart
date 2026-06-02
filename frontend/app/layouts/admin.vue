@@ -45,18 +45,6 @@
         </button>
       </nav>
 
-      <div class="sidebar-footer" v-if="user">
-        <div class="admin-profile-wrapper">
-          <span class="material-symbols-outlined profile-avatar">account_circle</span>
-          <div class="admin-profile-info">
-            <strong>{{ user.name }}</strong>
-            <span class="text-muted" style="font-size: 0.75rem;">{{ user.email }}</span>
-          </div>
-        </div>
-        <button class="md-btn md-btn--icon text-error sidebar-logout-btn" @click="handleLogout" title="Keluar">
-          <span class="material-symbols-outlined">logout</span>
-        </button>
-      </div>
     </aside>
 
     <div v-if="isSidebarOpen" class="sidebar-overlay no-print" @click="isSidebarOpen = false"></div>
@@ -218,57 +206,6 @@ onMounted(async () => {
   border: none;
   border-top: 1px solid var(--md-sys-color-outline-variant);
   margin: 16px 0;
-}
-
-.sidebar-footer {
-  padding: 16px;
-  border-top: 1px solid var(--md-sys-color-outline-variant);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.admin-profile-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  flex: 1;
-}
-
-.profile-avatar {
-  font-size: 32px;
-  color: var(--md-sys-color-primary);
-  flex-shrink: 0;
-}
-
-.admin-profile-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  flex: 1;
-}
-
-.admin-profile-info strong {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--md-sys-color-on-surface);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.admin-profile-info span {
-  font-size: 0.75rem;
-  color: var(--md-sys-color-on-surface-variant);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sidebar-logout-btn {
-  flex-shrink: 0;
 }
 
 /* Mengunci konten agar bergeser ke kanan sejauh 260px (Lebar sidebar) */
