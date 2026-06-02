@@ -1,390 +1,264 @@
 <template>
   <NuxtLayout name="admin">
-    <div class="admin-dashboard-container">
-      <div v-if="loading" class="flex-center" style="padding: 64px 0; flex-direction: column; gap: 16px;">
-        <span class="loader"></span>
-        <p class="text-muted">Memuat data statistik...</p>
-      </div>
+    <div class="dashboard-container">
 
-      <div v-else>
-        <div class="stats-grid">
-          <div class="md-card md-card--outlined stats-card">
-            <div class="stats-card-header">
-              <span class="text-muted">Total Pendapatan (Lunas)</span>
-              <span class="material-symbols-outlined icon-box icon-box--primary">payments</span>
-            </div>
-            <strong class="stats-val">Rp{{ stats.total_revenue?.toLocaleString('id-ID') || 0 }}</strong>
-            <span class="stats-subtext">Menunggu: Rp{{ stats.pending_sales?.toLocaleString('id-ID') || 0 }}</span>
+      <div class="dashboard-grid">
+        <div class="md-card summary-card">
+          <div class="card-info">
+            <span class="card-label">Total Pendapatan (Lunas)</span>
+            <h3 class="card-value">Rp0</h3>
+            <span class="card-sub text-muted">Menunggu: Rp0</span>
           </div>
-
-          <div class="md-card md-card--outlined stats-card">
-            <div class="stats-card-header">
-              <span class="text-muted">Total Pesanan</span>
-              <span class="material-symbols-outlined icon-box icon-box--secondary">receipt_long</span>
-            </div>
-            <strong class="stats-val">{{ stats.total_orders || 0 }}</strong>
-            <span class="stats-subtext">Dari seluruh pelanggan</span>
-          </div>
-
-          <div class="md-card md-card--outlined stats-card">
-            <div class="stats-card-header">
-              <span class="text-muted">Item Produk</span>
-              <span class="material-symbols-outlined icon-box icon-box--tertiary">inventory_2</span>
-            </div>
-            <strong class="stats-val">{{ stats.total_products || 0 }}</strong>
-            <span class="stats-subtext">Katalog aktif</span>
-          </div>
-
-          <div class="md-card md-card--outlined stats-card">
-            <div class="stats-card-header">
-              <span class="text-muted">Total Pelanggan</span>
-              <span class="material-symbols-outlined icon-box icon-box--info">group</span>
-            </div>
-            <strong class="stats-val">{{ stats.total_customers || 0 }}</strong>
-            <span class="stats-subtext">Terdaftar di sistem</span>
+          <div class="card-icon icon-purple">
+            <span class="material-symbols-outlined">payments</span>
           </div>
         </div>
 
-        <div class="dashboard-main-grid">
-          <div class="md-card md-card--outlined dashboard-table-card">
-            <div class="card-header">
-              <h3 style="font-size: 1.1rem; font-weight: 700;">Pesanan Terbaru</h3>
-              <button class="md-btn md-btn--text" @click="navigateTo('/admin/orders')">Lihat Semua</button>
-            </div>
-            
-            <div v-if="recentOrders.length === 0" class="flex-center" style="padding: 32px; flex-direction: column; gap: 8px;">
-              <span class="material-symbols-outlined" style="font-size: 40px; color: var(--md-sys-color-outline-variant);">receipt</span>
-              <p class="text-muted">Belum ada transaksi pesanan.</p>
-            </div>
-
-            <div v-else class="md-table-container" style="border: none; margin-bottom: 0;">
-              <table class="md-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Pelanggan</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th style="text-align: right;">Total</th>
-                    <th style="text-align: center;">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="order in recentOrders" :key="order.id">
-                    <td style="font-family: monospace; font-weight: bold;">
-                      #{{ order.id.slice(0, 6).toUpperCase() }}
-                    </td>
-                    <td>
-                      <div>
-                        <strong>{{ order.customer_name }}</strong>
-                        <div class="text-muted" style="font-size: 0.75rem;">{{ order.customer_phone }}</div>
-                      </div>
-                    </td>
-                    <td>{{ formatDate(order.created_at) }}</td>
-                    <td>
-                      <span class="status-badge" :class="getStatusClass(order.status)">
-                        {{ getStatusLabel(order.status) }}
-                      </span>
-                    </td>
-                    <td style="text-align: right; font-weight: 600;">
-                      Rp{{ order.total_amount.toLocaleString('id-ID') }}
-                    </td>
-                    <td style="text-align: center;">
-                      <button 
-                        class="md-btn md-btn--icon" 
-                        @click="navigateTo(`/orders/${order.id}`)"
-                        title="Detail Invoice"
-                      >
-                        <span class="material-symbols-outlined">receipt</span>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <div class="md-card summary-card">
+          <div class="card-info">
+            <span class="card-label">Total Pesanan</span>
+            <h3 class="card-value">0</h3>
+            <span class="card-sub text-muted">Dari seluruh pelanggan</span>
           </div>
+          <div class="card-icon icon-indigo">
+            <span class="material-symbols-outlined">receipt_long</span>
+          </div>
+        </div>
 
-          <div class="md-card md-card--outlined dashboard-side-card">
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px;">Distribusi Kategori</h3>
-            
-            <div v-if="!stats.category_stats || Object.keys(stats.category_stats).length === 0" class="text-muted">
-              Belum ada data kategori.
-            </div>
-            
-            <div v-else class="category-bars-list">
-              <div v-for="(count, category) in stats.category_stats" :key="category" class="category-bar-row">
-                <div class="category-bar-info">
-                  <span>{{ category }}</span>
-                  <strong>{{ count }} Produk</strong>
-                </div>
-                <div class="category-bar-bg">
-                  <div 
-                    class="category-bar-fill" 
-                    :style="{ width: `${(count / stats.total_products) * 100}%` }"
-                  ></div>
-                </div>
+        <div class="md-card summary-card">
+          <div class="card-info">
+            <span class="card-label">Item Produk</span>
+            <h3 class="card-value">8</h3>
+            <span class="card-sub text-muted">Katalog aktif</span>
+          </div>
+          <div class="card-icon icon-pink">
+            <span class="material-symbols-outlined">inventory_2</span>
+          </div>
+        </div>
+
+        <div class="md-card summary-card">
+          <div class="card-info">
+            <span class="card-label">Total Pelanggan</span>
+            <h3 class="card-value">1</h3>
+            <span class="card-sub text-muted">Terdaftar di sistem</span>
+          </div>
+          <div class="card-icon icon-blue">
+            <span class="material-symbols-outlined">group</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-row">
+        <div class="md-card table-card">
+          <div class="card-header-inline">
+            <h3 class="section-title">Pesanan Terbaru</h3>
+            <button class="text-link" @click="navigateTo('/admin/orders')">Lihat Semua</button>
+          </div>
+          
+          <hr class="card-divider" />
+          
+          <div class="empty-state">
+            <span class="material-symbols-outlined empty-icon">receipt</span>
+            <p>Belum ada transaksi pesanan.</p>
+          </div>
+        </div>
+
+        <div class="md-card distribution-card">
+          <h3 class="section-title" style="margin-bottom: 20px;">Distribusi Kategori</h3>
+          <div class="category-list">
+            <div class="category-item">
+              <div class="category-info">
+                <span>Elektronik & Belajar</span>
+                <span>1 Produk</span>
               </div>
+              <div class="progress-bar"><div class="progress" style="width: 12.5%;"></div></div>
+            </div>
+            <div class="category-item">
+              <div class="category-info">
+                <span>Seragam & Aksesoris</span>
+                <span>1 Produk</span>
+              </div>
+              <div class="progress-bar"><div class="progress" style="width: 12.5%;"></div></div>
+            </div>
+            <div class="category-item">
+              <div class="category-info">
+                <span>Tas & Kotak Pensil</span>
+                <span>2 Produk</span>
+              </div>
+              <div class="progress-bar"><div class="progress" style="width: 25%;"></div></div>
+            </div>
+            <div class="category-item">
+              <div class="category-info">
+                <span>Tulis-Menulis</span>
+                <span>4 Produk</span>
+              </div>
+              <div class="progress-bar"><div class="progress" style="width: 50%;"></div></div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </NuxtLayout>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuth } from '~/composables/useAuth'
-
-const router = useRouter()
-const { token, isLoggedIn, isAdmin, initAuth } = useAuth()
-
-const stats = ref({})
-const recentOrders = ref([])
-const loading = ref(false)
-
-const fetchDashboardData = async () => {
-  loading.value = true
-  try {
-    const statsRes = await fetch('http://localhost:5000/api/dashboard/stats', {
-      headers: { 'Authorization': `Bearer ${token.value}` }
-    })
-    if (statsRes.ok) {
-      stats.value = await statsRes.json()
-    }
-
-
-    const ordersRes = await fetch('http://localhost:5000/api/orders', {
-      headers: { 'Authorization': `Bearer ${token.value}` }
-    })
-    if (ordersRes.ok) {
-      const allOrders = await ordersRes.json()
-      recentOrders.value = allOrders.slice(0, 5)
-    }
-  } catch (e) {
-    console.error('Error fetching dashboard statistics:', e)
-  } finally {
-    loading.value = false
-  }
-}
-
-const formatDate = (dateString) => {
-  const d = new Date(dateString)
-  return d.toLocaleDateString('id-ID', {
-    day: 'numeric',
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
-
-const getStatusLabel = (status) => {
-  switch (status) {
-    case 'Pending': return 'Pending'
-    case 'Paid': return 'Lunas'
-    case 'Shipped': return 'Dikirim'
-    case 'Cancelled': return 'Batal'
-    default: return status
-  }
-}
-
-const getStatusClass = (status) => {
-  switch (status) {
-    case 'Pending': return 'badge--pending'
-    case 'Paid': return 'badge--paid'
-    case 'Shipped': return 'badge--shipped'
-    case 'Cancelled': return 'badge--cancelled'
-    default: return ''
-  }
-}
-
-onMounted(async () => {
-  await initAuth()
-  if (!isLoggedIn.value) {
-    router.push('/login')
-    return
-  }
-  if (!isAdmin.value) {
-    router.push('/')
-    return
-  }
-  fetchDashboardData()
+definePageMeta({
+  layout: false
 })
 </script>
 
 <style scoped>
-.admin-dashboard-container {
+.dashboard-container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 48px !important;
+  width: 100%;
 }
 
-.stats-grid {
+.dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  gap: 24px;
+  width: 100%;
 }
 
-.stats-card {
-  padding: 24px !important;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.dashboard-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  width: 100%;
+  align-items: start;
 }
 
-.stats-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.summary-card, .table-card, .distribution-card {
+  background-color: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  padding: 24px;
 }
 
-.stats-card-header {
+.summary-card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
 }
 
-.icon-box {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--md-shape-corner-medium);
+.card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-bottom: 8px;
+}
+
+.card-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
+}
+
+.card-sub {
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+.card-icon {
+  padding: 12px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.icon-box--primary {
-  color: var(--md-sys-color-primary);
-  background-color: var(--md-sys-color-primary-container);
-}
+.icon-purple { background-color: rgba(103, 80, 164, 0.08); color: #6750a4; }
+.icon-indigo { background-color: rgba(63, 81, 181, 0.08); color: #3f51b5; }
+.icon-pink { background-color: rgba(233, 30, 99, 0.08); color: #e91e63; }
+.icon-blue { background-color: rgba(33, 150, 243, 0.08); color: #2196f3; }
 
-.icon-box--secondary {
-  color: var(--md-sys-color-secondary);
-  background-color: var(--md-sys-color-secondary-container);
-}
-
-.icon-box--tertiary {
-  color: var(--md-sys-color-tertiary);
-  background-color: var(--md-sys-color-tertiary-container);
-}
-
-.icon-box--info {
-  color: #0288d1;
-  background-color: #e1f5fe;
-}
-
-.stats-val {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: var(--md-sys-color-on-surface);
-}
-
-.stats-subtext {
-  font-size: 0.75rem;
-  color: var(--md-sys-color-outline);
-}
-
-.dashboard-main-grid {
-  display: grid;
-  grid-template-columns: 1.8fr 1fr;
-  gap: 24px;
-}
-
-.card-header {
+.card-header-inline {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--md-sys-color-outline-variant);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
-.dashboard-table-card {
-  padding: 20px !important;
+/* STYLING GARIS ABU-ABU UNTUK KOTAK PESANAN */
+.card-divider {
+  border: none;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  margin: 0 0 24px 0;
 }
 
-.dashboard-side-card {
-  padding: 20px !important;
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--md-sys-color-on-surface);
 }
 
-.category-bars-list {
+.text-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.empty-state {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 48px 0;
+  gap: 12px;
 }
 
-.category-bar-row {
+.empty-icon {
+  font-size: 36px;
+}
+
+.category-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 20px;
 }
 
-.category-bar-info {
+.category-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-info {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
 }
 
-.category-bar-bg {
+.progress-bar {
   width: 100%;
+  background-color: var(--md-sys-color-surface-variant);
   height: 8px;
-  border-radius: var(--md-shape-corner-full);
-  background-color: var(--md-sys-color-surface-container-highest);
+  border-radius: 4px;
   overflow: hidden;
 }
 
-.category-bar-fill {
-  height: 100%;
-  border-radius: var(--md-shape-corner-full);
+.progress {
   background-color: var(--md-sys-color-primary);
+  height: 100%;
+  border-radius: 4px;
 }
 
-.status-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: var(--md-shape-corner-full);
-}
-
-.badge--pending {
-  background-color: var(--md-sys-color-tertiary-container);
-  color: var(--md-sys-color-on-tertiary-container);
-}
-
-.badge--paid {
-  background-color: #d1e7dd;
-  color: #0f5132;
-}
-
-.badge--shipped {
-  background-color: #cff4fc;
-  color: #055160;
-}
-
-.badge--cancelled {
-  background-color: var(--md-sys-color-error-container);
-  color: var(--md-sys-color-on-error-container);
-}
-
-.loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid var(--md-sys-color-primary-container);
-  border-bottom-color: var(--md-sys-color-primary);
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@media (max-width: 992px) {
-  .dashboard-main-grid {
+@media (max-width: 1024px) {
+  .dashboard-row {
     grid-template-columns: 1fr;
   }
 }

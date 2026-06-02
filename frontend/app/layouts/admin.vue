@@ -161,19 +161,19 @@ onMounted(async () => {
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 100;
+  z-index: 200; /* Sidebar aman di posisi paling depan */
 }
 
 .sidebar-brand {
   height: 84px;
   display: flex;
   align-items: center;
-  gap: 18px; /* Ditambah jarak antar icon dan teks */
-  padding: 0 28px; /* Ditambah padding agar tidak mepet ke pinggir sidebar */
+  gap: 14px;
+  padding: 0 24px;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--md-sys-color-primary);
-  letter-spacing: 0.5px; /* Memberikan nafas pada teks agar tidak terlihat sempit */
+  letter-spacing: 0.5px;
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
   cursor: pointer;
 }
@@ -271,12 +271,15 @@ onMounted(async () => {
   flex-shrink: 0;
 }
 
+/* Mengunci konten agar bergeser ke kanan sejauh 260px (Lebar sidebar) */
 .admin-main {
   flex: 1;
   margin-left: 260px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  box-sizing: border-box;
+  width: calc(100% - 260px);
 }
 
 .admin-header {
@@ -305,21 +308,12 @@ onMounted(async () => {
   display: none;
 }
 
+/* Jarak vertikal bawaan layout admin */
 .admin-content {
   padding: 96px 32px 32px 32px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-}
-
-/* Perbaikan: Memberikan jarak horizontal untuk kotak yang berjajar (seperti Pesanan Terbaru & Distribusi Kategori) */
-.admin-content :deep(.dashboard-grid),
-.admin-content :deep(.dashboard-row),
-.admin-content :deep(.grid-row) {
-  display: flex;
-  gap: 32px; /* Jarak antar kotak dashboard */
-  flex-wrap: wrap;
 }
 
 .sidebar-overlay {
@@ -329,7 +323,7 @@ onMounted(async () => {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 95;
+  z-index: 150;
   backdrop-filter: blur(2px);
 }
 
@@ -353,6 +347,7 @@ onMounted(async () => {
   
   .admin-main {
     margin-left: 0;
+    width: 100%;
   }
   
   .admin-header {
